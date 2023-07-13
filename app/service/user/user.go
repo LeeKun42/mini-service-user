@@ -73,7 +73,7 @@ func (us *userService) Enable(userId int) error {
 func (us *userService) GetList(input request.UserSearch) ([]dto.User, error) {
 	var users []dto.User
 	offset := (input.PageIndex - 1) * input.PageSize
-	result := model.Instance().Offset(offset).Limit(input.PageSize).Preload("Service").Find(&users)
+	result := model.Instance().Offset(offset).Limit(input.PageSize).Find(&users)
 	if result.Error != nil && errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return users, errors.New("用户不存在")
 	}
@@ -82,7 +82,7 @@ func (us *userService) GetList(input request.UserSearch) ([]dto.User, error) {
 
 func (us *userService) Get(id int) (dto.User, error) {
 	var user dto.User
-	result := model.Instance().Preload("Service").Find(&user, id)
+	result := model.Instance().Find(&user, id)
 	if result.Error != nil && errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return user, errors.New("用户不存在")
 	}
