@@ -82,7 +82,7 @@ func RegisterService(serviceName string, ip string, port int, groupName string, 
 	ok, err := ncClient.RegisterInstance(vo.RegisterInstanceParam{
 		Ip:          ip, //服务注册本机实例的ip
 		Port:        uint64(port),
-		Weight:      10,
+		Weight:      1,
 		Enable:      true,
 		Healthy:     true,
 		ServiceName: serviceName,
