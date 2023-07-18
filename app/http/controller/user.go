@@ -10,6 +10,7 @@ import (
 	"iris-app/app/rpc/client"
 	"iris-app/app/service/jwt"
 	"iris-app/app/service/user"
+	"time"
 )
 
 type userController struct{}
@@ -23,7 +24,7 @@ func (uc *userController) Hello(context iris.Context) {
 	if err != nil {
 		fmt.Println("rpc call error", err)
 	}
-	response.Success(context, iris.Map{"message": "Hello Iris!", "user info": user})
+	response.Success(context, iris.Map{"message": "Hello Iris!v1.0.1", "time": time.Now().Format("2006-01-02 13:01:02"), "user info": user})
 }
 
 func (uc *userController) Register(context iris.Context) {
