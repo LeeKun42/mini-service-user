@@ -11,14 +11,6 @@ RUN apk update --no-cache
 #设置时区和环境变量
 RUN apk add --no-cache tzdata
 
-# 指定git构建分支
-#ARG branch=master
-# 安装git
-#RUN apk add --no-cache git
-#拉取代码
-#ENV GOPROXY https://goproxy.cn,direct
-#RUN cd src && git clone https://LeeKun42:Lijun0402@github.com/LeeKun42/mini-service-user.git
-
 WORKDIR /go-build/src/
 
 # 拷贝go项目代码到镜像中
