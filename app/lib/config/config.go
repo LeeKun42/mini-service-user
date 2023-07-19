@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"github.com/nacos-group/nacos-sdk-go/v2/vo"
 	"github.com/spf13/viper"
-	"iris-app/app/lib/nacos"
 	"os"
 	"strings"
 	"time"
+	"user/app/lib/nacos"
 )
 
 func Init() {

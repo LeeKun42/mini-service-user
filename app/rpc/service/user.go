@@ -1,9 +1,9 @@
 package service
 
 import (
-	"iris-app/app/model/dto"
-	"iris-app/app/service/jwt"
-	"iris-app/app/service/user"
+	"user/app/model/dto"
+	"user/app/service/jwt"
+	"user/app/service/user"
 )
 
 type UserService interface {

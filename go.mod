@@ -1,4 +1,4 @@
-module iris-app
+module user
 
 go 1.19
 

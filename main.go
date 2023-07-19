@@ -1,6 +1,6 @@
 package main
 
-import "iris-app/app/cmd"
+import "user/app/cmd"
 
 func main() {
 	cmd.Main.AddCommand(&cmd.GormDto)

@@ -7,8 +7,8 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"iris-app/app/lib/log"
 	"time"
+	"user/app/lib/log"
 )
 
 type DatabaseConfig struct {

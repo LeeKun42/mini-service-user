@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/viper"
-	"iris-app/app/lib/redis"
 	"strconv"
 	"time"
+	"user/app/lib/redis"
 )
 
 type jwtService struct{}

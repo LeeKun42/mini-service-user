@@ -5,10 +5,10 @@ import (
 	"github.com/spf13/cobra"
 	"gorm.io/gen"
 	"gorm.io/gorm"
-	"iris-app/app/http"
-	"iris-app/app/lib/config"
-	"iris-app/app/model"
 	"os"
+	"user/app/http"
+	"user/app/lib/config"
+	"user/app/model"
 )
 
 var Main = cobra.Command{

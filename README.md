@@ -24,8 +24,15 @@ go-redis    redis库
 ```
 
 
-### 运行
+### 调试运行
 ```
-    go run main.go
+    go run main.go 或者 air（热编译）
 ```
 
+### 制作docker镜像
+```
+    编译镜像： docker build -t tagName . --no-cache
+    运行镜像： docker run -it --rm --name=容器名称 -p 818:8108 tagName
+    推送镜像： docker tag tagName:v1.0.0 127.0.0.1:5000/tagName:v1.0.0
+              docker push 127.0.0.1:5000/tagName:v1.0.0
+```

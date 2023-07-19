@@ -3,12 +3,12 @@ package user
 import (
 	"errors"
 	"gorm.io/gorm"
-	"iris-app/app/lib/hash"
-	"iris-app/app/model"
-	"iris-app/app/model/dto"
-	"iris-app/app/model/request"
-	"iris-app/app/service/jwt"
 	"time"
+	"user/app/lib/hash"
+	"user/app/model"
+	"user/app/model/dto"
+	"user/app/model/request"
+	"user/app/service/jwt"
 )
 
 type userService struct{}

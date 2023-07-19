@@ -3,14 +3,14 @@ package controller
 import (
 	"fmt"
 	"github.com/kataras/iris/v12"
-	"iris-app/app/http/response"
-	"iris-app/app/model/dto"
-	"iris-app/app/model/request"
-	response2 "iris-app/app/model/resp"
-	"iris-app/app/rpc/client"
-	"iris-app/app/service/jwt"
-	"iris-app/app/service/user"
 	"time"
+	"user/app/http/response"
+	"user/app/model/dto"
+	"user/app/model/request"
+	response2 "user/app/model/resp"
+	"user/app/rpc/client"
+	"user/app/service/jwt"
+	"user/app/service/user"
 )
 
 type userController struct{}

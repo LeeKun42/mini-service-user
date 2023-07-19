@@ -3,9 +3,9 @@ package middleware
 import (
 	"errors"
 	"github.com/kataras/iris/v12"
-	"iris-app/app/service/jwt"
-	"iris-app/app/service/user"
 	"strings"
+	"user/app/service/jwt"
+	"user/app/service/user"
 )
 
 func JwtAuthCheck(ctx iris.Context) {
