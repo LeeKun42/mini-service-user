@@ -3,7 +3,7 @@ filebeat.inputs:
     paths:
       - /app/mini-service/runtime/logs/2*.log
     multiline.type: pattern
-    multiline.pattern: '^\time'
+    multiline.pattern: '^time'
     multiline.negate: true
     multiline.match: after
     tags: ["mini-service-user"]

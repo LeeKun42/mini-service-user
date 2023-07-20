@@ -38,14 +38,17 @@ COPY --from=builder /go/bin/env.yaml /app/mini-service/env.yaml
 RUN touch stdout.log
 
 # filebeat
+RUN apk update --no-cache
+RUN apk add --no-cache curl bash libc6-compat
 RUN curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.8.2-linux-x86_64.tar.gz && tar xzvf filebeat-8.8.2-linux-x86_64.tar.gz
 COPY ./filebeat.yml /app/mini-service/filebeat-8.8.2-linux-x86_64/filebeat.yml
 
-RUN echo `#!/bin/bash \
-          cd filebeat-8.8.2-linux-x86_64/ \
-          ./filebeat -e -c ./solution.yml & \
-          cd ../ \
-          ./mini-service-user ` >> start.sh
+RUN echo -e "#!/bin/bash\n \
+cd filebeat-8.8.2-linux-x86_64/\n \
+./filebeat -e -c ./filebeat.yml &\n \
+cd ../\n \
+./mini-service-user\n " >> start.sh
+RUN chmod +x ./start.sh
 
 CMD ["./start.sh"]
 
