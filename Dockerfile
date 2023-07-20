@@ -37,7 +37,17 @@ COPY --from=builder /go/bin/env.yaml /app/mini-service/env.yaml
 
 RUN touch stdout.log
 
-CMD ["./mini-service-user"]
+# filebeat
+RUN curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.8.2-linux-x86_64.tar.gz && tar xzvf filebeat-8.8.2-linux-x86_64.tar.gz
+COPY ./filebeat.yml /app/mini-service/filebeat-8.8.2-linux-x86_64/filebeat.yml
+
+RUN echo `#!/bin/bash \
+          cd filebeat-8.8.2-linux-x86_64/ \
+          ./filebeat -e -c ./solution.yml & \
+          cd ../ \
+          ./mini-service-user ` >> start.sh
+
+CMD ["./start.sh"]
 
 EXPOSE 8108
 EXPOSE 8208

@@ -1,0 +1,17 @@
+filebeat.inputs:
+  - type: log
+    paths:
+      - /app/mini-service/runtime/logs/2*.log
+    multiline.type: pattern
+    multiline.pattern: '^\time'
+    multiline.negate: true
+    multiline.match: after
+    tags: ["mini-service-user"]
+
+fields:
+  project: mini-service-user
+
+output.elasticsearch:
+  hosts: ["http://192.168.102.74:9200"]
+  username: "elastic"
+  password: "123456"
