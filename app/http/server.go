@@ -38,14 +38,15 @@ func StartWebServer() {
 	})
 
 	/** restful风格路由 */
-	app.Get("/", controller.UserController.Hello)
+	userController := controller.NewUserController()
+	app.Get("/", userController.Hello)
 	app.PartyFunc("/api", func(api iris.Party) {
 		api.PartyFunc("/users", func(users iris.Party) {
-			users.Put("", controller.UserController.Register)
-			users.Get("/token", controller.UserController.Login)
-			users.Get("/new-token", controller.UserController.RefreshToken).Use(middleware.JwtAuthCheck)
-			users.Delete("/token", controller.UserController.Logout).Use(middleware.JwtAuthCheck)
-			users.Get("/info", controller.UserController.Info).Use(middleware.JwtAuthCheck)
+			users.Put("", userController.Register)
+			users.Get("/token", userController.Login)
+			users.Get("/new-token", userController.RefreshToken).Use(middleware.JwtAuthCheck)
+			users.Delete("/token", userController.Logout).Use(middleware.JwtAuthCheck)
+			users.Get("/info", userController.Info).Use(middleware.JwtAuthCheck)
 		})
 	})
 

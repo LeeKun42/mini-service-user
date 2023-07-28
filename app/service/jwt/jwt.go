@@ -11,9 +11,12 @@ import (
 	"user/app/lib/redis"
 )
 
-type jwtService struct{}
+type Service struct {
+}
 
-var Service = jwtService{}
+func NewService() *Service {
+	return &Service{}
+}
 
 type CustomClaims struct {
 	UserId     int   `json:"user_id"`
@@ -21,7 +24,7 @@ type CustomClaims struct {
 	jwt.RegisteredClaims
 }
 
-func (js *jwtService) Create(userId int, refreshTtl int64) string {
+func (js *Service) Create(userId int, refreshTtl int64) string {
 	//生成token
 	now := time.Now()              //当前时间
 	ttl := viper.GetInt("jwt.ttl") //token有效期（分钟）
@@ -56,7 +59,7 @@ func (js *jwtService) Create(userId int, refreshTtl int64) string {
 	return token
 }
 
-func (js *jwtService) Check(tokenString string) (*CustomClaims, error) {
+func (js *Service) Check(tokenString string) (*CustomClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(viper.GetString("jwt.secret")), nil
 	})
@@ -81,7 +84,7 @@ func (js *jwtService) Check(tokenString string) (*CustomClaims, error) {
 	}
 }
 
-func (js *jwtService) Refresh(oldToken string) (string, error) {
+func (js *Service) Refresh(oldToken string) (string, error) {
 	//检查旧token
 	var claims *CustomClaims
 	var err error
@@ -102,7 +105,7 @@ func (js *jwtService) Refresh(oldToken string) (string, error) {
 	return token, nil
 }
 
-func (js *jwtService) Invalidate(token string) error {
+func (js *Service) Invalidate(token string) error {
 	ctx, _ := context.WithTimeout(context.Background(), time.Millisecond*500)
 	key := "jwt:token:" + token
 	return redis.Cache().Del(ctx, key).Err()

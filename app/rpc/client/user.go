@@ -21,11 +21,13 @@ type UserRpcClient struct {
 
 func NewUserClient() *UserRpcClient {
 	ins := nacos.GetOneHealthyInstance(UserServiceName, "rpc-service")
+	fmt.Printf("call rpc server [%s:%d]\r\n", ins.Ip, ins.Port)
 	client, err := jsonrpc.Dial("tcp", fmt.Sprintf("%s:%d", ins.Ip, ins.Port))
 	if err != nil {
 		fmt.Println("create UserRpcClient err", err)
 		return nil
 	}
+
 	return &UserRpcClient{client}
 }
 

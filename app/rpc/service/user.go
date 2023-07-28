@@ -13,7 +13,7 @@ type UserService interface {
 type UserRpcService struct{}
 
 func (us *UserRpcService) Get(userId int, reply *dto.User) error {
-	user, err := user.Service.Get(userId)
+	user, err := user.NewService().Get(userId)
 	if err != nil {
 		return err
 	}
@@ -22,7 +22,7 @@ func (us *UserRpcService) Get(userId int, reply *dto.User) error {
 }
 
 func (us *UserRpcService) CheckJwtToken(token string, userId *int) error {
-	claims, err := jwt.Service.Check(token)
+	claims, err := jwt.NewService().Check(token)
 	if err != nil {
 		return err
 	}

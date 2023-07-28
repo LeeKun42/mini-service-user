@@ -13,11 +13,19 @@ import (
 	"user/app/service/user"
 )
 
-type userController struct{}
+type UserController struct {
+	UserService *user.Service
+	JwtService  *jwt.Service
+}
 
-var UserController = userController{}
+func NewUserController() *UserController {
+	return &UserController{
+		UserService: user.NewService(),
+		JwtService:  jwt.NewService(),
+	}
+}
 
-func (uc *userController) Hello(context iris.Context) {
+func (uc *UserController) Hello(context iris.Context) {
 	/** rpc 调用测试*/
 	var user dto.User
 	err := client.NewUserClient().Get(1, &user)
@@ -27,10 +35,10 @@ func (uc *userController) Hello(context iris.Context) {
 	response.Success(context, iris.Map{"message": "Hello Iris!v1.0.1", "time": time.Now().Format("2006-01-02 13:01:02"), "user info": user})
 }
 
-func (uc *userController) Register(context iris.Context) {
+func (uc *UserController) Register(context iris.Context) {
 	var input request.RegisterUser
 	context.ReadJSON(&input)
-	id, err := user.Service.Register(input)
+	id, err := uc.UserService.Register(input)
 	if err != nil {
 		response.Fail(context, err.Error())
 	} else {
@@ -38,10 +46,10 @@ func (uc *userController) Register(context iris.Context) {
 	}
 }
 
-func (uc *userController) Login(context iris.Context) {
+func (uc *UserController) Login(context iris.Context) {
 	var input request.UserLogin
 	context.ReadQuery(&input)
-	token, err := user.Service.Login(input)
+	token, err := uc.UserService.Login(input)
 	if err != nil {
 		response.Fail(context, err.Error())
 	} else {
@@ -49,8 +57,8 @@ func (uc *userController) Login(context iris.Context) {
 	}
 }
 
-func (uc *userController) RefreshToken(context iris.Context) {
-	token, err := jwt.Service.Refresh(context.Values().GetString("jwt_token"))
+func (uc *UserController) RefreshToken(context iris.Context) {
+	token, err := uc.JwtService.Refresh(context.Values().GetString("jwt_token"))
 	if err != nil {
 		response.Error(context, 401, err.Error())
 	} else {
@@ -58,14 +66,14 @@ func (uc *userController) RefreshToken(context iris.Context) {
 	}
 }
 
-func (uc *userController) Logout(context iris.Context) {
-	jwt.Service.Invalidate(context.Values().GetString("jwt_token"))
+func (uc *UserController) Logout(context iris.Context) {
+	uc.JwtService.Invalidate(context.Values().GetString("jwt_token"))
 	response.Success(context, iris.Map{})
 }
 
-func (uc *userController) Info(context iris.Context) {
+func (uc *UserController) Info(context iris.Context) {
 	loginUserId, _ := context.Values().GetInt("user_id")
-	userInfo, err := user.Service.Get(loginUserId)
+	userInfo, err := uc.UserService.Get(loginUserId)
 	if err != nil {
 		response.Fail(context, err.Error())
 	} else {
@@ -80,7 +88,7 @@ func (uc *userController) Info(context iris.Context) {
 	}
 }
 
-func (uc *userController) GetList(context iris.Context) {
+func (uc *UserController) GetList(context iris.Context) {
 	var input request.UserSearch
 	context.ReadQuery(&input)
 	if input.PageIndex == 0 {
@@ -89,7 +97,7 @@ func (uc *userController) GetList(context iris.Context) {
 	if input.PageSize == 0 {
 		input.PageSize = 10
 	}
-	users, err := user.Service.GetList(input)
+	users, err := uc.UserService.GetList(input)
 	if err != nil {
 		response.Fail(context, err.Error())
 	} else {
